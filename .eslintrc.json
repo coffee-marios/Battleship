@@ -1,0 +1,11 @@
+{
+    "env": {
+        "node": true, // Recognize Node.js global variables and scope, like module.exports and require
+        "es2021": true, // This enables ES2021 features but doesn't enforce ES module syntax
+        "jest": true
+    },
+    "extends": "eslint:recommended", // Extend basic ESLint recommended rules
+    "parserOptions": {
+        "ecmaVersion": 12 // Support latest JavaScript features
+    }
+}
