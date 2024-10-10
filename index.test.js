@@ -1,4 +1,4 @@
-const { Ship } = require("./index.js");
+const { Ship, Gameboard } = require("./index.js");
 
 describe("Hitting the ship", () => {
   test("Sink the ship with one strike", () => {
@@ -24,5 +24,25 @@ describe("Hitting the ship", () => {
     player.hit();
     player.hit();
     expect(player.isSunk()).toBe(false);
+  });
+});
+
+describe("Placing the ship", () => {
+  test("Striking the ship", () => {
+    const board = Gameboard();
+    expect(board.receiveAttack(1, 1)).toBe(true);
+    expect(board.receiveAttack(5, 1)).toBe(true);
+  });
+  test("Missing the ship", () => {
+    const board = Gameboard();
+    expect(board.receiveAttack(6, 1)).toBe(false);
+    expect(board.receiveAttack(5, 2)).toBe(false);
+  });
+  test("Sink a ship", () => {
+    const board = Gameboard();
+    for (let i = 1; i <= 5; i++) {
+      board.receiveAttack(i, 1);
+    }
+    expect(board.ohMyShip()).toBe(true);
   });
 });
