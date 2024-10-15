@@ -96,4 +96,15 @@ function Gameboard(
   };
 }
 
+function player(human = true) {
+  const gboard = Gameboard();
+  const win = false;
+
+  return {
+    human: human,
+    win: win,
+    gboard: gboard,
+  };
+}
+
 module.exports = { Ship, Gameboard };
