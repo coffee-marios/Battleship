@@ -1,5 +1,6 @@
 body {
     background-color: burlywood;
+    margin: 0;
 }
 
 .title {
@@ -9,15 +10,20 @@ body {
 #two_boards {
     display: flex;
     flex-direction: row;
-    justify-content: start;
-    gap: 20px;
+    justify-content: center;
+    gap: 150px;
     align-items: stretch;
+    margin: 2rem auto;
+    width: 80%;
 }
 
 #board_1,
 #board_2 {
     background-color: brown;
-    min-width: 500px;
+    border: 2px gold solid;
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    grid-template-rows: repeat(10, 1fr);
 }
 
 .board_block_1 {
