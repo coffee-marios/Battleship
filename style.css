@@ -1,0 +1,28 @@
+body {
+    background-color: burlywood;
+}
+
+.title {
+    text-align: center;
+}
+
+#two_boards {
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    gap: 20px;
+    align-items: stretch;
+}
+
+#board_1,
+#board_2 {
+    background-color: brown;
+    min-width: 500px;
+}
+
+.board_block_1 {
+    height: 30px;
+    width: 30px;
+    background-color: blue;
+    border: 1px green solid;
+}

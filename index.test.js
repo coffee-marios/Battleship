@@ -1,4 +1,4 @@
-const { Ship, Gameboard } = require("./index.js");
+const { Ship, Gameboard } = require("./lib/utils.js");
 
 describe("Ship conflict", () => {
   const player = Gameboard();

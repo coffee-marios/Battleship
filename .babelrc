@@ -1,0 +1,13 @@
+{
+    "presets": [
+        [
+            "@babel/preset-env",
+            {
+                "targets": {
+                    "node": "current" // Ensure compatibility with the current Node.js version
+                },
+                "modules": "commonjs" // Convert ES modules to CommonJS
+            }
+        ]
+    ]
+}
