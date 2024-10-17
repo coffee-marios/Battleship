@@ -26,9 +26,37 @@ body {
     grid-template-rows: repeat(10, 1fr);
 }
 
-.board_block_1 {
+.board_block_1,
+.board_block_2 {
+    text-align: center;
+    /*  */
     height: 30px;
     width: 30px;
+
+}
+
+.dot-strike {
+    margin: 13px auto;
+    height: 4px;
+    width: 4px;
+    border-radius: 60%;
+    background-color: black;
+}
+
+
+
+
+.board_block_1 {
+
     background-color: blue;
     border: 1px green solid;
+}
+
+.board_block_2 {
+    background-color: yellow;
+    border: 1px green solid;
+}
+
+.board_block_1-strike {
+    background-color: darkgray;
 }
