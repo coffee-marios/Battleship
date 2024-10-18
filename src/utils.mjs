@@ -1,7 +1,8 @@
-export function Ship(lengthShip) {
+export function Ship(lengthShip, name) {
   let hits = 0;
   let blocks = [];
   return {
+    name: name,
     lengthShip: lengthShip,
     blocks: blocks,
     hit() {
@@ -13,11 +14,11 @@ export function Ship(lengthShip) {
   };
 }
 
-const carrier1 = Ship(5);
-const battleship1 = Ship(4);
-const destroyer1 = Ship(3);
-const submarine1 = Ship(3);
-const patrolBoat1 = Ship(2);
+const carrier1 = Ship(5, "Carrier");
+const battleship1 = Ship(4, "Battleship");
+const destroyer1 = Ship(3, "Destroyer");
+const submarine1 = Ship(3, "Submarine");
+const patrolBoat1 = Ship(2, "Patrol");
 
 export function Gameboard(
   carrier = carrier1,
@@ -48,8 +49,8 @@ export function Gameboard(
       for (let i = 0; i < lastBlock; i++) {
         const y_block = i + y;
         const key = [x, y_block].toString();
-        console.log(occupiedBlocks);
-        console.log(key, occupiedBlocks.has(key));
+        //console.log(occupiedBlocks);
+        //console.log(key, occupiedBlocks.has(key));
         if (occupiedBlocks.has(key)) return false;
         shipBlocks.push(key);
       }
@@ -65,13 +66,16 @@ export function Gameboard(
 
   placeShip(1, 1, "horizontal", carrier);
   placeShip(3, 5, "horizontal", battleship);
-  // placeShip(8, 7, "vertical", destroyer);
-  placeShip(2, 1, "vertical", destroyer);
+  placeShip(0, 3, "vertical", destroyer);
+  placeShip(4, 3, "horizontal", submarine);
+  placeShip(3, 7, "horizontal", patrolBoat);
 
   return {
     occupiedBlocks: occupiedBlocks,
     carrier: carrier,
     battleship: battleship,
+    myShips: myShips,
+
     receiveAttack(x_axis, y_axis) {
       const key = [x_axis, y_axis].toString();
       const target = occupiedBlocks.get(key);

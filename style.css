@@ -20,7 +20,7 @@ body {
 #board_1,
 #board_2 {
     background-color: brown;
-    border: 2px gold solid;
+    border: 12px rgb(15, 185, 194) solid;
     display: grid;
     grid-template-columns: repeat(10, 1fr);
     grid-template-rows: repeat(10, 1fr);
@@ -59,4 +59,8 @@ body {
 
 .board_block_1-strike {
     background-color: darkgray;
+}
+
+.boat {
+    background-color: white;
 }
