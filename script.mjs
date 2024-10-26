@@ -1,7 +1,9 @@
-import { Ship, Gameboard, Player } from "./src/utils.mjs";
+import { Gameboard, Player } from "./src/utils.mjs";
 
 const player = Gameboard();
-console.log(player.myShips);
+const blocksBoats = [];
+
+player.setBoats();
 
 const createBoard = (elementId, elementClass, player = "person") => {
   const board_1 = document.getElementById(elementId);
@@ -15,20 +17,20 @@ const createBoard = (elementId, elementClass, player = "person") => {
       elem.appendChild(dot);
       if (player === "person") {
         elem.addEventListener("click", () => {
+          console.log("id", blockId);
           dot.classList.add("dot-strike");
           elem.classList.add("board_block_1-strike");
         });
       }
 
       board_1.appendChild(elem);
-      //if (i === 4) console.log(elem.id);
     }
   }
 };
 createBoard("board_1", "board_block_1");
 createBoard("board_2", "board_block_2", "computer");
 
-console.log(player);
+console.log("player: ", player);
 
 const boat_block = (board, boat) => {
   let boat_block_id;
@@ -38,14 +40,25 @@ const boat_block = (board, boat) => {
     boat_block_id += "-[" + blocks[i].toString() + "]";
     const elem = document.getElementById(boat_block_id);
     elem.classList.add("boat");
-    console.log(boat_block_id);
+    blocksBoats.push(elem);
   }
 };
 
-const ships_player = player.myShips;
+const drawShips = () => {
+  const ships_player = player.allShips;
+  for (let i = 0; i < ships_player.length; i++) {
+    boat_block("board_1", ships_player[i]);
+  }
+};
 
-for (let i = 0; i < ships_player.length; i++) {
-  boat_block("board_1", ships_player[i]);
-}
+drawShips();
 
-console.log(player.myShips);
+const button_random_1 = document.getElementById("random-1");
+
+button_random_1.addEventListener("click", () => {
+  for (let i = 0; i < blocksBoats.length; i++) {
+    blocksBoats[i].classList.remove("boat");
+  }
+  player.setBoats();
+  drawShips();
+});
