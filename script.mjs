@@ -1,26 +1,24 @@
-import { Gameboard, Player } from "./src/utils.mjs";
+import { Player } from "./src/utils.mjs";
 
-const player = Gameboard();
+const player_1 = Player(true);
+const player = player_1.gboard;
+
+const player_2 = Player(false);
+const computer = player_2.gboard;
+// console.clear();
+console.log(computer);
 
 // all dom blocks of boats
 let allBlocks = [];
 let movingShip;
 let hoverBlock;
 
-////
-
 // Prevent the ship from jumping over other ships
 
 let blockMemory = undefined;
 
-// Prepare to test if the ship can move;
-let testShipShift = true;
-
 // the first movement of the ship is special
 let shipHasMoved = false;
-
-let moveUp, moveDown, moveLeft, moveRight;
-moveUp = moveDown = moveLeft = moveRight = false;
 
 let criticalBlock_x_greater;
 let criticalBlock_x_smaller;
@@ -32,14 +30,19 @@ const checkBlocksEmpty = new Set();
 
 // Place the blocks we need
 player.setBoats();
+computer.setBoats();
 
 console.log("You have the ships: ", player.allShips);
 
 const createBoard = (elementId, elementClass, user = "person") => {
-  const board_1 = document.getElementById(elementId);
-  const removable1 = document.createElement("div");
-  board_1.appendChild(removable1);
-  removable1.setAttribute("id", "removable1");
+  const myBoard = document.getElementById(elementId);
+
+  const content = document.createElement("div");
+  myBoard.appendChild(content);
+
+  if (user === "person") content.setAttribute("id", "removable1");
+  if (user === "computer") content.setAttribute("id", "stable");
+
   for (let j = 0; j < 10; j++) {
     for (let i = 0; i < 10; i++) {
       const elem = document.createElement("div");
@@ -48,11 +51,13 @@ const createBoard = (elementId, elementClass, user = "person") => {
       elem.id = blockId;
       const dot = document.createElement("div");
       elem.appendChild(dot);
-      if (user === "person") {
+      if (user === "computer") {
         elem.addEventListener("click", () => {
           dot.classList.add("dot-strike");
           elem.classList.add("board_block_1-strike");
         });
+      }
+      if (user === "person") {
         elem.addEventListener("mouseover", (x) => {
           const block_id = x.srcElement.id;
           const test_match = block_id.match(/\[(.*)\]$/);
@@ -61,19 +66,31 @@ const createBoard = (elementId, elementClass, user = "person") => {
         });
       }
 
-      removable1.appendChild(elem);
+      content.appendChild(elem);
     }
   }
 };
-createBoard("board_1", "board_block_1");
-// createBoard("board_2", "board_block_2", "computer");
+createBoard("board_1", "board_block_1", "person");
+createBoard("board_2", "board_block_2", "computer");
 // console.log("player: ", player);
 
-const drawShips = () => {
+const drawShips = (common = true) => {
+  // Human
   const ships_player = player.allShips;
   for (let i = 0; i < ships_player.length; i++) {
     boat_block("board_1", ships_player[i]);
     ships_player[i].moving = false;
+  }
+  if (!common) return;
+
+  // Computer
+
+  const ships_computer = computer.allShips;
+  console.log("XXXXXXXXXXXxx");
+  console.log(ships_computer);
+  for (let i = 0; i < ships_computer.length; i++) {
+    boat_block("board_2", ships_computer[i]);
+    ships_computer[i].moving = false;
   }
 };
 
@@ -169,8 +186,6 @@ const boat_block = (board, boat) => {
     }
 
     if (!collision && hoverBlock !== undefined) {
-      // if (blockMemory === undefined && hoverBlock !== undefined)
-      //   blockMemory = [...hoverBlock];
       player.manuallyShiftShip(boat, hoverBlock);
 
       collision = boat.blockedDirection.get("collision");
@@ -237,7 +252,6 @@ const boat_block = (board, boat) => {
 
         allBlocks = [...elementsBoats];
         if (player.temporary_occupiedBlocks.size >= 9) {
-          //console.log("TEMPORARY");
           player.tempPermanent();
           allBlocks = [...elementsBoats];
         }
@@ -256,11 +270,9 @@ const boat_block = (board, boat) => {
       boat_block_id = board;
       boat_block_id += "-[" + selectBlock[i].toString() + "]";
       let elem = document.getElementById(boat_block_id);
-      // elem.classList.add("testColor");
 
       elem.classList.add(typeBoat);
       if (typeBoat === "moving-boat") elem.classList.add("moving-boat-border");
-      /// console.log("boat_block_id", boat_block_id);
       const nameShip = boat.name;
       let boatBlocksCopy = [...boat.blocks];
       elem.classList.add(nameShip);
@@ -268,12 +280,13 @@ const boat_block = (board, boat) => {
       allElementBoats.push(elem);
 
       elem.addEventListener("mousedown", (e) => {
+        console.clear();
         e.preventDefault();
         // console.log("Down", e.srcElement);
+        console.log(hoverBlock);
         blockMemory = [...hoverBlock];
 
         // console.clear();
-        //console.log("down, boat movement:", boat.blockedDirection);
         console.log("down", boat);
         let hereBoat = false;
 
@@ -318,7 +331,7 @@ button_random_1.addEventListener("click", () => {
   createBoard("board_1", "board_block_1");
   player.setBoats();
 
-  drawShips();
+  drawShips(false);
 });
 
 drawShips();

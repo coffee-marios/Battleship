@@ -18,8 +18,9 @@ body {
 }
 
 
-#board_2,
-#removable1 {
+
+#removable1,
+#stable {
     background-color: brown;
     border: 12px rgb(15, 185, 194) solid;
     display: grid;

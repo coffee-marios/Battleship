@@ -60,14 +60,23 @@ export function Ship(lengthShip, name) {
 
 // Get the ships ready
 
-const carrier = Ship(3, "Carrier");
-const battleship = Ship(3, "Battleship");
-const destroyer = Ship(2, "Destroyer");
-const submarine = Ship(1, "Submarine");
-const patrolBoat = Ship(1, "Patrol");
+export function Gameboard(human = true) {
+  let carrier, battleship, destroyer, submarine, patrolBoat;
+  if (human === true) {
+    carrier = Ship(3, "Carrier");
+    battleship = Ship(3, "Battleship");
+    destroyer = Ship(2, "Destroyer");
+    submarine = Ship(1, "Submarine");
+    patrolBoat = Ship(1, "Patrol");
+  } else {
+    carrier = Ship(3, "Carrier_comp");
+    battleship = Ship(3, "Battleship_comp");
+    destroyer = Ship(2, "Destroyer_comp");
+    submarine = Ship(1, "Submarine_comp");
+    patrolBoat = Ship(1, "Patrol_comp");
+  }
 
-export function Gameboard() {
-  const allShips = [carrier, battleship, destroyer, submarine, patrolBoat];
+  let allShips = [carrier, battleship, destroyer, submarine, patrolBoat];
 
   const myShips = [];
   let occupiedBlocks = new Map();
@@ -438,7 +447,7 @@ export function Gameboard() {
     temporary_surroundBlocks,
     mapBlocks: mapBlocks,
     temporary_data_boat,
-    carrier: carrier,
+
     battleship: battleship,
 
     allShips: allShips,
@@ -450,7 +459,7 @@ export function Gameboard() {
     setBoats(_allShips = allShips) {
       occupiedBlocks.clear();
       surroundBlocks.clear();
-      console.clear();
+      // console.clear();
       for (let i = 0; i < _allShips.length; i++) {
         _allShips[i].clearBlocks();
         _allShips[i].collisionUpdate();
@@ -484,8 +493,8 @@ export function Gameboard() {
   };
 }
 
-export function Player(human = true) {
-  const gboard = Gameboard();
+export function Player(human) {
+  const gboard = Gameboard(human);
   const win = false;
 
   return {
