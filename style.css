@@ -31,7 +31,6 @@ body {
 .board_block_1,
 .board_block_2 {
     text-align: center;
-    /*  */
     height: 30px;
     width: 30px;
 
@@ -57,7 +56,7 @@ body {
 
 
 .board_block_2 {
-    background-color: yellow;
+    background-color: rgba(255, 255, 0, 0.768);
     border: 1px blue solid;
 }
 
@@ -80,4 +79,16 @@ body {
 .testColor {
     background-color: black;
 
+
+}
+
+.hit-boat {
+    background-color: rgb(61, 50, 18);
+    color: red;
+    border: 1px rgb(61, 50, 18) solid;
+    line-height: 2;
+    font-weight: 500;
+    /* margin: 13px auto; */
+    /* height: 4px;
+    width: 4px; */
 }

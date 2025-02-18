@@ -54,17 +54,19 @@ const createBoard = (elementId, elementClass, user = "person") => {
       if (user === "computer") {
         elem.addEventListener("click", () => {
           dot.classList.add("dot-strike");
-          elem.classList.add("board_block_1-strike");
+          dot.classList.add("hit-boat");
+
+          elem.classList.add("board_block_2-strike");
         });
       }
-      if (user === "person") {
-        elem.addEventListener("mouseover", (x) => {
-          const block_id = x.srcElement.id;
-          const test_match = block_id.match(/\[(.*)\]$/);
-          const block_array = test_match ? JSON.parse(test_match[0]) : null;
-          hoverBlock = block_array;
-        });
-      }
+
+      elem.addEventListener("mouseover", (x) => {
+        const block_id = x.srcElement.id;
+
+        const test_match = block_id.match(/\[(.*)\]$/);
+        const block_array = test_match ? JSON.parse(test_match[0]) : null;
+        hoverBlock = block_array;
+      });
 
       content.appendChild(elem);
     }
@@ -280,14 +282,36 @@ const boat_block = (board, boat) => {
       allElementBoats.push(elem);
 
       elem.addEventListener("mousedown", (e) => {
-        console.clear();
+        // console.clear();
         e.preventDefault();
+        //   if (boat.isSunk) return;
         // console.log("Down", e.srcElement);
         console.log(hoverBlock);
         blockMemory = [...hoverBlock];
+        boat.hit();
+
+        player_2.commentState();
+        if (boat.isSunk()) {
+          player_2.addSunkBoat(boat);
+
+          console.log(1, player_2);
+        }
+        const didILose = player_2.testLost();
+        console.log("lost?", didILose);
+        console.log(2, player_2.commentState());
+
+        // let a = player.testLost();
+        // console.log("lost?", a);
 
         // console.clear();
-        console.log("down", boat);
+        // console.log("down", boat.name.match(/comp/));
+        if (boat.name.match(/comp/) !== null) {
+          console.log("Computer ship");
+
+          console.log(elem.id);
+          elem.textContent = "X";
+          elem.classList.add("hit-boat");
+        }
         let hereBoat = false;
 
         // Check if the click is on a boat
@@ -299,8 +323,6 @@ const boat_block = (board, boat) => {
         if (!hereBoat) return;
 
         player.prepareShift(hoverBlock);
-
-        //console.log("My boat is ", boat, movingShip);
 
         movingShip = boat;
         document.addEventListener("mousemove", onMouseMove);

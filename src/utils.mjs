@@ -495,11 +495,23 @@ export function Gameboard(human = true) {
 
 export function Player(human) {
   const gboard = Gameboard(human);
-  const win = false;
+  const win = undefined;
+  let lostBoats = new Set();
 
   return {
     human: human,
     win: win,
     gboard: gboard,
+    lostBoats: lostBoats,
+    commentState() {
+      console.log("34", lostBoats);
+    },
+    addSunkBoat(sunk_boat) {
+      console.log("ADD");
+      lostBoats.add(sunk_boat);
+    },
+    testLost() {
+      if (lostBoats.size >= 5) return true;
+    },
   };
 }
