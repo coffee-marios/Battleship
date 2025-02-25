@@ -449,7 +449,7 @@ export function Gameboard(human = true) {
     temporary_data_boat,
 
     battleship: battleship,
-
+    getRandomInt: getRandomInt,
     allShips: allShips,
     prepareShift: prepareShift,
     manuallyShiftShip: manuallyShiftShip,
@@ -495,16 +495,37 @@ export function Gameboard(human = true) {
 
 export function Player(human) {
   const gboard = Gameboard(human);
+  const myBoatsBlocks = gboard.occupiedBlocks;
   const win = undefined;
-  let lostBoats = new Set();
+  const lostBoats = new Set();
+  const blocksDestroyed = new Set();
 
   return {
     human: human,
     win: win,
     gboard: gboard,
     lostBoats: lostBoats,
+    myBoatsBlocks: myBoatsBlocks,
+    blocksDestroyed: blocksDestroyed,
+    testIfBoat([x, y]) {
+      console.log(gboard);
+      console.log(myBoatsBlocks);
+      const strBlock = x + "," + y;
+      console.log(strBlock);
+      return myBoatsBlocks.has(strBlock);
+    },
+    usedBlocks([x, y]) {
+      return blocksDestroyed.has(JSON.stringify([x, y]));
+    },
     commentState() {
       console.log("34", lostBoats);
+    },
+    attackBlock(x, y) {
+      if (x === undefined && y === undefined) [x, y] = gboard.getRandomInt(10);
+      const blockUndamaged = blocksDestroyed.has(JSON.stringify([x, y]));
+      if (blockUndamaged === true) return [undefined, undefined];
+      blocksDestroyed.add(JSON.stringify([x, y]));
+      return [x, y];
     },
     addSunkBoat(sunk_boat) {
       console.log("ADD");

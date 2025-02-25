@@ -12,6 +12,7 @@ console.log(computer);
 let allBlocks = [];
 let movingShip;
 let hoverBlock;
+let gameRunning = false;
 
 // Prevent the ship from jumping over other ships
 
@@ -50,13 +51,57 @@ const createBoard = (elementId, elementClass, user = "person") => {
       elem.classList.add(elementClass);
       elem.id = blockId;
       const dot = document.createElement("div");
+      const dot_player = document.createElement("div");
       elem.appendChild(dot);
       if (user === "computer") {
         elem.addEventListener("click", () => {
-          dot.classList.add("dot-strike");
-          dot.classList.add("hit-boat");
+          gameRunning = true;
 
-          elem.classList.add("board_block_2-strike");
+          if (player_2.usedBlocks([i, j])) {
+            console.clear();
+            console.log(true);
+            return;
+          } else {
+            console.log(false);
+            console.log("Destroyed comp", [i, j]);
+            console.log("2 set", player_2.blocksDestroyed);
+          }
+
+          player_2.attackBlock(i, j);
+          console.log("Destroyed", [i, j]);
+          console.log("Destroyed", player_2.blocksDestroyed);
+          dot.classList.add("dot-strike");
+          //elem.classList.add("board_block_2-strike"); // not sure?
+          let [attack_x, attack_y] = player_1.attackBlock();
+
+          console.log("player", player_1.blocksDestroyed);
+
+          while (attack_x === undefined && attack_y === undefined) {
+            [attack_x, attack_y] = player_1.attackBlock();
+            //console.log(player_1.usedBlocks([attack_x, attack_y]));
+          }
+          console.log("attack", [attack_x, attack_y]);
+          const stringId = `board_1-[${attack_x},${attack_y}]`;
+          const blockAttack = document.getElementById(stringId);
+          const strBlockPlayer = attack_x + "," + attack_y;
+          const hitPlayerBoat = player_1.testIfBoat([attack_x, attack_y]);
+          if (hitPlayerBoat) {
+            blockAttack.textContent = "X";
+            blockAttack.classList.add("hit-boat");
+            const boatGotHit = player_1.myBoatsBlocks.get(strBlockPlayer);
+            console.log("boat", boatGotHit);
+            boatGotHit.hit();
+            if (boatGotHit.isSunk()) {
+              player_1.addSunkBoat(boatGotHit);
+              player_1.commentState();
+              console.log(1, player_1);
+            }
+            const didPlayerLose = player_2.testLost();
+            console.log("lost?", didPlayerLose);
+          } else {
+            blockAttack.appendChild(dot_player);
+            dot_player.classList.add("dot-strike");
+          }
         });
       }
 
@@ -136,6 +181,7 @@ const boat_block = (board, boat) => {
   let elementsBoats;
 
   const onMouseMove = () => {
+    if (gameRunning) return;
     elementsBoats = [];
     const nameShip = boat.name;
     let boatElement = document.getElementsByClassName(nameShip);
@@ -278,53 +324,53 @@ const boat_block = (board, boat) => {
       const nameShip = boat.name;
       let boatBlocksCopy = [...boat.blocks];
       elem.classList.add(nameShip);
-
-      allElementBoats.push(elem);
+      if (boat.name.match(/comp/) === null) {
+        allElementBoats.push(elem);
+      }
 
       elem.addEventListener("mousedown", (e) => {
-        // console.clear();
         e.preventDefault();
-        //   if (boat.isSunk) return;
-        // console.log("Down", e.srcElement);
-        console.log(hoverBlock);
-        blockMemory = [...hoverBlock];
-        boat.hit();
+        console.log("ELEMENTS:", allElementBoats);
 
-        player_2.commentState();
-        if (boat.isSunk()) {
-          player_2.addSunkBoat(boat);
-
-          console.log(1, player_2);
-        }
-        const didILose = player_2.testLost();
-        console.log("lost?", didILose);
-        console.log(2, player_2.commentState());
-
-        // let a = player.testLost();
-        // console.log("lost?", a);
-
-        // console.clear();
-        // console.log("down", boat.name.match(/comp/));
         if (boat.name.match(/comp/) !== null) {
           console.log("Computer ship");
 
           console.log(elem.id);
           elem.textContent = "X";
           elem.classList.add("hit-boat");
-        }
-        let hereBoat = false;
+          boat.hit();
+          console.log("hit", boat);
+          console.log("sunk", boat.isSunk());
+          // The computer attacks the boats of the user
 
-        // Check if the click is on a boat
-        for (let i = 0; i < boatBlocksCopy.length; i++) {
-          if (hoverBlock.toString() === boat.blocks[i].toString()) {
-            hereBoat = true;
+          if (boat.isSunk()) {
+            player_2.addSunkBoat(boat);
+            player_2.commentState();
+            console.log(1, player_2);
           }
         }
-        if (!hereBoat) return;
 
-        player.prepareShift(hoverBlock);
+        const didComputerLose = player_2.testLost();
 
-        movingShip = boat;
+        console.log("lost?", didComputerLose);
+        if (didComputerLose) return;
+        console.log(2, player_2.commentState());
+        if (boat.name.match(/comp/) === null) {
+          let hereBoat = false;
+          blockMemory = [...hoverBlock];
+
+          // Check if the click is on a boat
+          for (let i = 0; i < boatBlocksCopy.length; i++) {
+            if (hoverBlock.toString() === boat.blocks[i].toString()) {
+              hereBoat = true;
+            }
+          }
+          if (!hereBoat) return;
+
+          player.prepareShift(hoverBlock);
+          movingShip = boat;
+        }
+
         document.addEventListener("mousemove", onMouseMove);
         document.addEventListener("mouseup", onMouseUp);
       });
