@@ -13,6 +13,7 @@ let allBlocks = [];
 let movingShip;
 let hoverBlock;
 let gameRunning = false;
+let gameEnded = false;
 
 // Prevent the ship from jumping over other ships
 
@@ -56,6 +57,7 @@ const createBoard = (elementId, elementClass, user = "person") => {
       if (user === "computer") {
         elem.addEventListener("click", () => {
           gameRunning = true;
+          if (gameEnded) return;
 
           if (player_2.usedBlocks([i, j])) {
             console.clear();
@@ -96,7 +98,13 @@ const createBoard = (elementId, elementClass, user = "person") => {
               player_1.commentState();
               console.log(1, player_1);
             }
-            const didPlayerLose = player_2.testLost();
+            const didPlayerLose = player_1.testLost();
+            if (didPlayerLose) {
+              const spanWinner = document.getElementById("winnerIs");
+              spanWinner.textContent = "Computer!";
+              gameEnded = true;
+              console.log(spanWinner);
+            }
             console.log("lost?", didPlayerLose);
           } else {
             blockAttack.appendChild(dot_player);
@@ -351,6 +359,12 @@ const boat_block = (board, boat) => {
         }
 
         const didComputerLose = player_2.testLost();
+        if (didComputerLose) {
+          const spanWinner = document.getElementById("winnerIs");
+          spanWinner.textContent = "You!";
+
+          console.log(spanWinner);
+        }
 
         console.log("lost?", didComputerLose);
         if (didComputerLose) return;
