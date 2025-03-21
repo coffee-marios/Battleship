@@ -89,7 +89,7 @@ const createBoard = (elementId, elementClass, user = "person") => {
             blockAttack.textContent = "X";
             blockAttack.classList.add("hit-boat");
             const boatGotHit = player_1.myBoatsBlocks.get(strBlockPlayer);
-            console.log("boat", boatGotHit);
+
             boatGotHit.hit();
             if (boatGotHit.isSunk()) {
               player_1.addSunkBoat(boatGotHit);
@@ -324,8 +324,10 @@ const boat_block = (board, boat) => {
       boat_block_id = board;
       boat_block_id += "-[" + selectBlock[i].toString() + "]";
       let elem = document.getElementById(boat_block_id);
+      if (board === "board_1") {
+        elem.classList.add(typeBoat);
+      }
 
-      elem.classList.add(typeBoat);
       if (typeBoat === "moving-boat") elem.classList.add("moving-boat-border");
       const nameShip = boat.name;
       let boatBlocksCopy = [...boat.blocks];
