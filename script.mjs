@@ -5,8 +5,6 @@ const player = player_1.gboard;
 
 const player_2 = Player(false);
 const computer = player_2.gboard;
-// console.clear();
-console.log(computer);
 
 // all dom blocks of boats
 let allBlocks = [];
@@ -15,6 +13,7 @@ let hoverBlock;
 let gameRunning = false;
 let gameEnded = false;
 
+const spanWinner = document.getElementById("winnerIs");
 // Prevent the ship from jumping over other ships
 
 let blockMemory = undefined;
@@ -80,7 +79,6 @@ const createBoard = (elementId, elementClass, user = "person") => {
 
           while (attack_x === undefined && attack_y === undefined) {
             [attack_x, attack_y] = player_1.attackBlock();
-            //console.log(player_1.usedBlocks([attack_x, attack_y]));
           }
           console.log("attack", [attack_x, attack_y]);
           const stringId = `board_1-[${attack_x},${attack_y}]`;
@@ -100,8 +98,8 @@ const createBoard = (elementId, elementClass, user = "person") => {
             }
             const didPlayerLose = player_1.testLost();
             if (didPlayerLose) {
-              const spanWinner = document.getElementById("winnerIs");
               spanWinner.textContent = "Computer!";
+              spanWinner.classList.add("colorLost");
               gameEnded = true;
               console.log(spanWinner);
             }
@@ -341,14 +339,15 @@ const boat_block = (board, boat) => {
         console.log("ELEMENTS:", allElementBoats);
 
         if (boat.name.match(/comp/) !== null) {
+          console.clear();
           console.log("Computer ship");
 
           console.log(elem.id);
           elem.textContent = "X";
           elem.classList.add("hit-boat");
           boat.hit();
-          console.log("hit", boat);
-          console.log("sunk", boat.isSunk());
+
+          console.log("hit number", boat.hitNumbers());
           // The computer attacks the boats of the user
 
           if (boat.isSunk()) {
@@ -361,8 +360,10 @@ const boat_block = (board, boat) => {
         const didComputerLose = player_2.testLost();
         if (didComputerLose) {
           const spanWinner = document.getElementById("winnerIs");
-          spanWinner.textContent = "You!";
 
+          spanWinner.classList.add("colorWon");
+          spanWinner.textContent = "You!";
+          gameEnded = true;
           console.log(spanWinner);
         }
 
@@ -404,16 +405,37 @@ function removeClassBoats(elem) {
   elem.classList.remove("Patrol");
   elem.classList.remove("Destroyer");
   elem.classList.remove("Battleship");
+
+  elem.classList.remove("Carrier_comp");
+  elem.classList.remove("Submarine_comp");
+  elem.classList.remove("Patrol_comp");
+  elem.classList.remove("Destroyer_comp");
+  elem.classList.remove("Battleship_comp");
 }
 
 // New random positions of boats
 button_random_1.addEventListener("click", () => {
-  const element = document.getElementById("removable1");
-  element.remove();
+  console.clear();
+  gameRunning = false;
+  gameEnded = false;
+  spanWinner.textContent = "pending";
+  spanWinner.classList.remove("colorLost");
+  spanWinner.classList.remove("colorWon");
+
+  const element_player = document.getElementById("removable1");
+  element_player.remove();
   createBoard("board_1", "board_block_1");
   player.setBoats();
+  player_1.resetBoats();
+  player_1.commentState();
 
-  drawShips(false);
+  const element_computer = document.getElementById("stable");
+  element_computer.remove();
+  createBoard("board_2", "board_block_2", "computer");
+  computer.setBoats();
+  player_2.resetBoats();
+  player_2.commentState();
+  drawShips();
 });
 
 drawShips();

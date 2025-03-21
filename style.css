@@ -7,6 +7,56 @@ body {
     text-align: center;
 }
 
+#intro {
+    text-align: center;
+}
+
+#random-1 {
+    margin-top: 1.8rem;
+    padding: 8px;
+    background-color: rgba(15, 141, 36, 0.64);
+    border: black 1px solid;
+    color: white;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: bold;
+    border-radius: 6px;
+}
+
+#random-1:hover {
+    background-color: rgba(27, 187, 9, 0.64);
+
+
+}
+
+
+
+#declareWinner {
+    margin-top: 3rem;
+    text-align: center;
+}
+
+
+
+
+.colorWaiting {
+    background-color: bisque;
+    font-size: 0.8rem;
+    padding: 15px;
+
+}
+
+.colorLost {
+    background-color: rgb(223, 12, 12);
+    font-size: 1.5rem;
+    padding: 5px;
+}
+
+.colorWon {
+    background-color: rgb(131, 235, 115);
+    font-size: 1.5rem;
+    padding: 5px;
+}
+
 #two_boards {
     display: flex;
     flex-direction: row;

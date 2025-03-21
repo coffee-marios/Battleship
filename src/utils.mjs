@@ -18,6 +18,9 @@ export function Ship(lengthShip, name) {
     lengthShip: lengthShip,
     blocks: blocks,
     blockedDirection: blockedDirection,
+    hitNumbers() {
+      return hits;
+    },
     collisionUpdate() {
       blockedDirection.set("collision", false);
       blockedDirection.set("move-x-negative", undefined);
@@ -48,6 +51,7 @@ export function Ship(lengthShip, name) {
       this.adjacentBlocks = [];
       this.reachedBlocks = [];
       this.reachedAdjBlocks = [];
+      hits = 0;
     },
     hit() {
       hits += 1;
@@ -496,17 +500,20 @@ export function Gameboard(human = true) {
 export function Player(human) {
   const gboard = Gameboard(human);
   const myBoatsBlocks = gboard.occupiedBlocks;
-  const win = undefined;
+
   const lostBoats = new Set();
   const blocksDestroyed = new Set();
 
   return {
     human: human,
-    win: win,
     gboard: gboard,
     lostBoats: lostBoats,
     myBoatsBlocks: myBoatsBlocks,
     blocksDestroyed: blocksDestroyed,
+    resetBoats() {
+      lostBoats.clear();
+      blocksDestroyed.clear();
+    },
     testIfBoat([x, y]) {
       console.log(gboard);
       console.log(myBoatsBlocks);

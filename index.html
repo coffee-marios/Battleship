@@ -11,18 +11,24 @@
 
 <body>
     <h1 class="title">Project: Battleship</h1>
-    <h2>The winner is: <span id="winnerIs">Waiting</span></h2>
+
+    <div id="intro">
+        <h2 id="declareWinner">The winner is: <span id="winnerIs" class="colorWaiting">pending</span></h2>
+        <button id="random-1">Set/Reset</button>
+    </div>
+
 
     <div id="two_boards">
         <div>
             <h2 class="title">YOU</h2>
+
             <div id="board_1"></div>
-            <button id="random-1">R</button>
+
         </div>
         <div>
             <h2 class="title">ENEMY</h2>
             <div id="board_2"></div>
-            <button id="random-2">R</button>
+
         </div>
 
     </div>
