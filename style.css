@@ -1,14 +1,51 @@
-body {
-    background-color: burlywood;
+* {
     margin: 0;
+    padding: 0;
 }
+
+body {
+    background-color: rgb(232, 169, 86);
+
+}
+
+#title-top {
+    text-align: center;
+    background-color: rgb(100, 10, 84);
+    padding: 1.5rem;
+
+}
+
+.title,
+.title-board {
+    max-width: min-content;
+}
+
 
 .title {
-    text-align: center;
+    border-radius: 50%;
+
+    margin: auto;
+    background-color: orange;
+    padding: 1rem;
+    color: rgb(21, 21, 156);
 }
 
-#intro {
-    text-align: center;
+.title-board {
+    border-radius: 40%;
+
+    padding: 0.5rem;
+    background-color: rgba(232, 208, 206, 0.933);
+    margin-bottom: 1rem;
+
+}
+
+
+
+
+#declareWinner {
+    padding: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 100;
 }
 
 #random-1 {
@@ -28,34 +65,6 @@ body {
 
 }
 
-
-
-#declareWinner {
-    margin-top: 3rem;
-    text-align: center;
-}
-
-
-
-
-.colorWaiting {
-    background-color: bisque;
-    font-size: 0.8rem;
-    padding: 15px;
-
-}
-
-.colorLost {
-    background-color: rgb(223, 12, 12);
-    font-size: 1.5rem;
-    padding: 5px;
-}
-
-.colorWon {
-    background-color: rgb(131, 235, 115);
-    font-size: 1.5rem;
-    padding: 5px;
-}
 
 #two_boards {
     display: flex;
@@ -138,7 +147,32 @@ body {
     border: 1px rgb(61, 50, 18) solid;
     line-height: 2;
     font-weight: 500;
-    /* margin: 13px auto; */
-    /* height: 4px;
-    width: 4px; */
+
+}
+
+#bottom-message {
+    background-color: tomato;
+    text-align: center;
+    margin-top: 1rem;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+
+}
+
+.colorWaiting {
+    background-color: bisque;
+    font-size: 0.8rem;
+    padding: 15px;
+
+}
+
+.colorLost {
+    background-color: rgb(223, 12, 12);
+    font-size: 1.5rem;
+    padding: 5px;
+}
+
+.colorWon {
+    background-color: rgb(131, 235, 115);
+    font-size: 1.5rem;
+    padding: 5px;
 }
